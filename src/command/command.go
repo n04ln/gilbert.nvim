@@ -6,6 +6,7 @@ import (
 )
 
 func GilbertUpload(v *nvim.Nvim, args []string) error {
+	v.WriteOut("A")
 	buf, err := v.CurrentBuffer()
 	if err != nil {
 		return err
