@@ -1,0 +1,6 @@
+package: github.com/NoahOrberg/gilbert-nvim
+import:
+- package: github.com/neovim/go-client
+  subpackages:
+  - nvim
+  - nvim/plugin
