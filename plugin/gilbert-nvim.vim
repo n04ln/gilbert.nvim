@@ -8,6 +8,6 @@ function! s:RequireGilbert(host) abort
 endfunction
 
 call remote#host#Register('gilbert-nvim', 'x', function('s:RequireGilbert'))
-call remote#host#RegisterPlugin('gilbert', '0', [
+call remote#host#RegisterPlugin('gilbert-nvim', '0', [
   \ {'type': 'command', 'name': 'GilbertUp', 'sync': 1, 'opts': {}},
   \ ])
