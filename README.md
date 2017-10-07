@@ -9,18 +9,19 @@
 - make
 
 ## Installation
-0. Please set environment variable
+0. Please set ENVIRONMENT VARIABLE because using `gilbert`
 ```
 export GIST_TOKEN=<YOUR TOKEN HERE>
 ```
-1. Please write your init.vim
+1. Please write your `init.vim`
 ```
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`
 
 ## How To Use
-- Upload File
+- Upload current buffer
+  - <FILENAME> is optional, when use it if buffer is `[No Name]`.
 ```
 :GiUpload <FILENAME>
 ```
