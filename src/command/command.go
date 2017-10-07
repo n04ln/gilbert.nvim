@@ -5,7 +5,7 @@ import (
 	"github.com/neovim/go-client/nvim"
 )
 
-func gilbertUpload(v *nvim.Nvim, args []string) error {
+func GilbertUpload(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
 		return err

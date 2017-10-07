@@ -1,0 +1,31 @@
+hash: 58c09344a76003ba94ddf4ee8499899a85ac6b2e7a519fbd08d3f7a2bcb0e3f4
+updated: 2017-10-08T01:07:01.654765844+09:00
+imports:
+- name: github.com/kelseyhightower/envconfig
+  version: 462fda1f11d8cad3660e52737b8beefd27acfb3f
+- name: github.com/neovim/go-client
+  version: 41046447d68e201c1988a66b665ab8a41536c028
+  subpackages:
+  - msgpack
+  - msgpack/rpc
+  - nvim
+  - nvim/plugin
+- name: github.com/NoahOrberg/gilbert
+  version: 335da656cd58bfa6b9f7423bed2ffd43e5b48309
+  subpackages:
+  - config
+  - gist
+- name: github.com/NoahOrberg/gilbert.nvim
+  version: ad84827625cf77087debaa36aa42dbaceaa78137
+  subpackages:
+  - src/command
+- name: golang.org/x/crypto
+  version: 9419663f5a44be8b34ca85f08abc5fe1be11f8a3
+  subpackages:
+  - ssh/terminal
+- name: golang.org/x/sys
+  version: ebfc5b4631820b793c9010c87fd8fef0f39eb082
+  subpackages:
+  - unix
+  - windows
+testImports: []

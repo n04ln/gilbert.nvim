@@ -7,7 +7,7 @@ import (
 
 func main() {
 	plugin.Main(func(p *plugin.Plugin) error {
-		p.HandleCommand(&plugin.CommandOptions{Name: "GiUpload", NArgs: "*"}, command.gilbertUpload)
+		p.HandleCommand(&plugin.CommandOptions{Name: "GiUpload", NArgs: "*"}, command.GilbertUpload)
 		return nil
 	})
 }
