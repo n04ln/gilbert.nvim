@@ -21,7 +21,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 
 ## How To Use
 - Upload current buffer
-  - <FILENAME> is optional, when use it if buffer is `[No Name]`.
+  - `<FILENAME>` is optional, when use it if buffer is `[No Name]`.
 ```
 :GiUpload <FILENAME>
 ```
