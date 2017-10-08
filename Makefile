@@ -12,7 +12,7 @@ deps:
 	glide install
 
 install:
-	go install
+	go build -ldflags "-w -s" -o bin/$(NAME)
 
 clean:
 	rm -rf bin/* vendor/*
