@@ -1,11 +1,41 @@
 package command
 
 import (
+	"errors"
+	"strings"
+
 	"github.com/NoahOrberg/gilbert/gist"
 	"github.com/neovim/go-client/nvim"
 )
 
 type Gilbert struct {
+}
+
+func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
+	buf, err := v.CurrentBuffer()
+	if err != nil {
+		return err
+	}
+	gi, err := gist.GetGist(args[0])
+	if err != nil {
+		return err
+	}
+
+	if len(gi.Files) != 1 {
+		return errors.New("can open only one file gist")
+	}
+
+	var strLines []string
+	for _, value := range gi.Files {
+		strLines = strings.Split(value.Content, "\n")
+	}
+
+	lines := make([][]byte, 0, len(strLines))
+	for _, line := range strLines {
+		lines = append(lines, []byte(line))
+	}
+
+	return v.SetBufferLines(buf, 0, -1, true, lines)
 }
 
 func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
