@@ -11,13 +11,18 @@
 ## Installation
 0. Please set ENVIRONMENT VARIABLE because using `gilbert`
 ```
-export GIST_TOKEN=<YOUR TOKEN HERE>
+$ export GIST_TOKEN=<YOUR TOKEN HERE>
 ```
-1. Please write your `init.vim`
+1. Please get dependent package because `$XDG_CONFIG_HOME` is NOT include `$GOPATH`
+```
+$ go get github.com/neovim/...
+$ go get github.com/NoahOrberg/gilbert.nvim/...
+```
+2. Please write your `init.vim`
 ```
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
-2. Restart `nvim`
+3. Restart `nvim`
 
 ## How To Use
 - Upload current buffer
