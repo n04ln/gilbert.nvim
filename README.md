@@ -27,9 +27,14 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 :GiUpload <FILENAME>
 ```
-- Load current buffer
-  - Load Gist of only one file
+- Load current buffer.
+  - Load Gist of only one file.
 ```
-:GiLoad <GIST_ID>
+:GiLoad <GIST-ID>
 ```
-
+- Update gist
+  - Upload gist-file from current buffer to gist.
+  - !!! this behavior is unstable(beta-version).
+```
+:GiPatch <GIST-ID>
+```
