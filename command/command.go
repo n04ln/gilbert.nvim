@@ -122,9 +122,11 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		}
 
 		var content string
-		for _, c := range lines {
+		for i, c := range lines {
 			content += string(c)
-			content += "\n"
+			if i < len(lines)-1 {
+				content += "\n"
+			}
 		}
 
 		url, err = gist.PostToGistByContent("", filename, content)
