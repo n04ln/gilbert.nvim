@@ -20,6 +20,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	}
 
 	var url string
+	url = "Missing"
 	if filename == "" {
 		if len(args) > 0 {
 			filename = args[0]
