@@ -6,7 +6,7 @@
 ## Requirements
 - go
 - glide
-  - But it is NOT using now because `$GOPATH` is NOT include `$XDG_CONFIG_HOME`. And dependent packages are installed by `util/dep.sh` and it placed `$GOPATH`. (cannot be vendoring)
+  - But it is NOT using now because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed `$GOPATH`. (cannot be vendoring)
 - make
 
 ## Installation
