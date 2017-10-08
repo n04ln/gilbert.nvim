@@ -1,14 +1,18 @@
-NAME     := gilbert-nvim
+NAME     := gilbert.nvim
 VERSION  := v0.0.1
 GOPATH   ?= $(shell go env GOPATH)
 
-install:
+deps:
 	glide install
-	go build -o bin/gilbert-nvim
+	glide update
+
+install:
+	go build -o bin/$(NAME)
 	# go install
 	mv bin/$(NAME) $(GOPATH)/bin/
 
 clean:
 	rm -rf bin/* vendor/*
 
-.PHONY: install clean
+.PHONY:
+	deps install clean
