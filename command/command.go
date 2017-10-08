@@ -25,14 +25,20 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return errors.New("can open only one file gist")
 	}
 
+	var filename string
 	var strLines []string
-	for _, value := range gi.Files {
+	for key, value := range gi.Files {
+		filename = key
 		strLines = strings.Split(value.Content, "\n")
 	}
 
 	lines := make([][]byte, 0, len(strLines))
 	for _, line := range strLines {
 		lines = append(lines, []byte(line))
+	}
+
+	if err := v.SetBufferName(buf, filename); err != nil {
+		return err
 	}
 
 	return v.SetBufferLines(buf, 0, -1, true, lines)
