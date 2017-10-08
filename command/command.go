@@ -49,7 +49,9 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		}
 	}
 
-	v.WriteOut(url)
+	if err := v.Command("echom '" + url + "'"); err != nil {
+		return err
+	}
 
 	return nil
 }
