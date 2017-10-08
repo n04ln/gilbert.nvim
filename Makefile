@@ -1,6 +1,7 @@
-NAME     := gilbert.nvim
-VERSION  := v0.0.1
-GOPATH   ?= $(shell go env GOPATH)
+NAME            := gilbert.nvim
+VERSION         := v0.0.1
+GOPATH          ?= $(shell go env GOPATH)
+XDG_CONFIG_HOME ?= $(shell echo $XDG_CONFIG_HOME)
 
 default:
 	make deps
@@ -11,9 +12,7 @@ deps:
 	glide install
 
 install:
-	go build -gcflags "-N -l" -ldflags "-w -s" -o bin/$(NAME)
-	# go install
-	mv bin/$(NAME) $(GOPATH)/bin/
+	go install
 
 clean:
 	rm -rf bin/* vendor/*

@@ -3,6 +3,9 @@ import:
 - package: github.com/NoahOrberg/gilbert
   subpackages:
   - gist
+- package: github.com/NoahOrberg/gilbert.nvim
+  subpackages:
+  - command 
 - package: github.com/neovim/go-client
   subpackages:
   - nvim
