@@ -28,6 +28,8 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 :GiUpload <FILENAME>
 ```
 - Load current buffer
+  - Load Gist of only one file
 ```
 :GiLoad <GIST_ID>
 ```
+
