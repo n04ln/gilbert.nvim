@@ -1,5 +1,5 @@
-hash: 30b0988cb16b20d3ed3012499d1d53851226b3689da384fe7a9523dfb1e02ed3
-updated: 2017-10-08T12:26:49.103324005+09:00
+hash: a0ebc42ab5fa5f95e74bdb0c2d954f1f7bae9c5db82fa912b1ef7f4e2c5e4bc4
+updated: 2017-10-08T13:02:08.54766738+09:00
 imports:
 - name: github.com/kelseyhightower/envconfig
   version: 462fda1f11d8cad3660e52737b8beefd27acfb3f
@@ -15,10 +15,6 @@ imports:
   subpackages:
   - config
   - gist
-- name: github.com/NoahOrberg/gilbert.nvim
-  version: 7c01755a5c4a5a9a317abb853c77c112d110bff5
-  subpackages:
-  - command
 - name: golang.org/x/crypto
   version: 9419663f5a44be8b34ca85f08abc5fe1be11f8a3
   subpackages:

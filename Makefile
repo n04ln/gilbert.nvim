@@ -2,9 +2,13 @@ NAME     := gilbert.nvim
 VERSION  := v0.0.1
 GOPATH   ?= $(shell go env GOPATH)
 
+default:
+	make deps
+	make install
+	make clean
+
 deps:
 	glide install
-	glide update
 
 install:
 	go build -gcflags "-N -l" -ldflags "-w -s" -o bin/$(NAME)
@@ -14,5 +18,3 @@ install:
 clean:
 	rm -rf bin/* vendor/*
 
-.PHONY:
-	deps install clean

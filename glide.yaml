@@ -1,9 +1,5 @@
-package: .
+package: github.com/NoahOrberg/gilbert.nvim
 import:
-- package: github.com/NoahOrberg/gilbert.nvim
-  version: develop
-  subpackages:
-  - command
 - package: github.com/NoahOrberg/gilbert
   subpackages:
   - gist
