@@ -1,7 +1,6 @@
 package command
 
 import (
-	"encoding/json"
 	"errors"
 	"strings"
 
@@ -17,34 +16,41 @@ type Gilbert struct {
 func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
+		v.Command("echom '" + err.Error() + "'")
 		return err
 	}
 
 	filename, err := v.BufferName(buf)
 	if err != nil {
+		v.Command("echom '" + err.Error() + "'")
 		return err
 	}
+
+	// :GiLoadでロードされる前提にするため、スラッシュから始まっていたら弾く
 	temp := strings.Split(filename, "/")
-	filename = temp[len(temp)-1]
-	if filename == "" {
-		filename = noName
+	if (temp[0] == "") && (len(temp) != 2) {
+		err := errors.New("didnt open :GiLoad this buffer")
+		v.Command("echom '" + err.Error() + "'")
+		return err
 	}
+
+	filename = temp[len(temp)-1]
 
 	lines, err := v.BufferLines(buf, 0, -1, true)
 	if err != nil {
+		v.Command("echom '" + err.Error() + "'")
 		return err
 	}
 
 	var content string
-	for _, c := range lines {
+	for i, c := range lines {
 		content += string(c)
-		content += "\n"
+		if i < len(lines)-1 {
+			content += "\n"
+		}
 	}
 
-	if len(args) != 1 {
-		return errors.New("invalid argument(need only one)")
-	}
-	id := args[0]
+	id := temp[0]
 	gi := gist.Gist{
 		Files: map[string]gist.File{
 			filename: gist.File{
@@ -52,12 +58,10 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 			},
 		},
 	}
-	hoge, err := json.Marshal(gi)
-	v.Command("echom '" + filename + "'")
-	v.Command("echom '" + string(hoge) + "'")
+
 	err = gist.PatchGist(id, gi)
 	if err != nil {
-		v.Command("echo '" + err.Error() + "'")
+		v.Command("echom '" + err.Error() + "'")
 		return err
 	}
 
@@ -69,7 +73,10 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 	if err != nil {
 		return err
 	}
-	gi, err := gist.GetGist(args[0])
+
+	id := args[0]
+
+	gi, err := gist.GetGist(id)
 	if err != nil {
 		return err
 	}
@@ -90,7 +97,7 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		lines = append(lines, []byte(line))
 	}
 
-	if err := v.SetBufferName(buf, filename); err != nil {
+	if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
 		return err
 	}
 
@@ -116,6 +123,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		} else {
 			filename = noName
 		}
+
 		lines, err := v.BufferLines(buf, 0, -1, true)
 		if err != nil {
 			return err
@@ -133,6 +141,11 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		if err != nil {
 			return err
 		}
+
+		splittedURL := strings.Split(url, "/")
+		id := splittedURL[len(splittedURL)-1]
+
+		err = v.SetBufferName(buf, id+"/"+filename)
 	} else {
 		url, err = gist.PostToGistByFile("", filename, false)
 		if err != nil {

@@ -34,7 +34,8 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 - Update gist
   - Upload gist-file from current buffer to gist.
-  - !!! this behavior is unstable(beta-version).
+  - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute.
 ```
-:GiPatch <GIST-ID>
+:GiPatch
 ```
+
