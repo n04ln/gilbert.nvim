@@ -9,7 +9,8 @@ default:
 	make clean
 
 deps:
-	glide install
+	# glide install
+	sh util/dep.sh
 
 install:
 	go build -ldflags "-w -s" -o bin/$(NAME)

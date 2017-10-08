@@ -6,6 +6,7 @@
 ## Requirements
 - go
 - glide
+  - But it is NOT using now because `$GOPATH` is NOT include `$XDG_CONFIG_HOME`. And dependent packages are installed by `util/dep.sh` and it placed `$GOPATH`. (cannot be vendoring)
 - make
 
 ## Installation
@@ -13,16 +14,11 @@
 ```
 $ export GIST_TOKEN=<YOUR TOKEN HERE>
 ```
-1. Please get dependent package because `$XDG_CONFIG_HOME` is NOT include `$GOPATH`
-```
-$ go get -u github.com/neovim/go-client/...
-$ go get -u github.com/NoahOrberg/gilbert.nvim/...
-```
-2. Please write your `init.vim`
+1. Please write your `init.vim`
 ```
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
-3. Restart `nvim`
+2. Restart `nvim`
 
 ## How To Use
 - Upload current buffer
