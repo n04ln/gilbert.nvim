@@ -1,8 +1,12 @@
 package: .
 import:
 - package: github.com/NoahOrberg/gilbert.nvim
+  version: develop
   subpackages:
-  - src/command
+  - command
+- package: github.com/NoahOrberg/gilbert
+  subpackages:
+  - gist
 - package: github.com/neovim/go-client
   subpackages:
   - nvim

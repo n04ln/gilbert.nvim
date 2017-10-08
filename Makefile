@@ -7,7 +7,7 @@ deps:
 	glide update
 
 install:
-	go build -o bin/$(NAME)
+	go build -gcflags "-N -l" -ldflags "-w -s" -o bin/$(NAME)
 	# go install
 	mv bin/$(NAME) $(GOPATH)/bin/
 
