@@ -1,6 +1,6 @@
 # gilbert.nvim
 
-## Desctiption
+## Desctription
 `gilbert.nvim` is neovim plugin that easy file upload to gist using [NoahOrberg/gilbert](http://github.com/NoahOrberg/gilbert).
 
 ## Requirements
