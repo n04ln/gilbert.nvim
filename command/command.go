@@ -14,11 +14,22 @@ const noName = "NoName"
 type Gilbert struct {
 }
 
-// g:gilbert#is_allow_open_browserをチェックし、1ならブラウザで開く
+// g:gilbert#allow_open_by_browser をチェックし、1ならブラウザで開く
 func checkAndOpenGist(v *nvim.Nvim, url string) error {
 	var isAllow int
 	if v.Var("gilbert#allow_open_by_browser", &isAllow); isAllow == 1 {
 		if err := util.Exec(v, "open "+url); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// g:gilbert#should_copy_url_to_clipboard をチェック
+func checkAndCopyGistURL(v *nvim.Nvim, url string) error {
+	var isAllow int
+	if v.Var("gilbert#should_copy_url_to_clipboard", &isAllow); isAllow == 1 {
+		if err := util.Exec(v, "echo '"+url+"' | pbcopy"); err != nil {
 			return err
 		}
 	}
@@ -77,6 +88,11 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 	}
 
 	util.Echom(v, res.HTMLURL)
+
+	if err := checkAndCopyGistURL(v, url); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
 
 	if err := checkAndOpenGist(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
@@ -174,6 +190,11 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	}
 
 	util.Echom(v, url)
+
+	if err := checkAndCopyGistURL(v, url); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
 
 	if err := checkAndOpenGist(v, url); err != nil {
 		util.Echom(v, err.Error())
