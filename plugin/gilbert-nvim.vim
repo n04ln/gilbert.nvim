@@ -7,6 +7,8 @@ function! s:RequireGilbert(host) abort
   return jobstart(['gilbert.nvim'], { 'rpc': v:true })
 endfunction
 
+let g:gilbert#buffer_and_gist_id_info={}
+
 call remote#host#Register('gilbert.nvim', '0', function('s:RequireGilbert'))
 call remote#host#RegisterPlugin('gilbert.nvim', '0', [
   \ {'type': 'command', 'name': 'GiUpload', 'sync': 0, 'opts': {'nargs': '?'}},
