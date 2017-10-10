@@ -229,23 +229,26 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	filename, err := v.BufferName(buf)
+	filepath, err := v.BufferName(buf)
 	if err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
 
 	var url string
+	var filename string
 	url = "Missing"
-	if len(args) > 0 {
-		filename = args[0]
-	} else {
-		if filename == "" {
-			filename = noName
+	if filepath == "" {
+		if len(args) > 0 {
+			filename = args[0]
+			filepath = args[0]
 		} else {
-			temp := strings.Split(filename, "/")
-			filename = temp[len(temp)-1]
+			filepath = noName
+			filename = noName
 		}
+	} else {
+		temp := strings.Split(filepath, "/")
+		filename = temp[len(temp)-1]
 	}
 
 	lines, err := v.BufferLines(buf, 0, -1, true)
@@ -287,7 +290,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := v.SetBufferName(buf, filename); err != nil {
+	if err := v.SetBufferName(buf, filepath); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
