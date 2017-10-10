@@ -6,7 +6,7 @@
 ## Requirements
 - only use MacOS
   - because this plugin is using `open` command(to open Upload gist).
-  - Linux, and Windows does not Command.
+  - Linux, and Windows does not execute Command.
 - go
 - glide
   - But it is NOT using now because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed `$GOPATH`. (cannot be vendoring)
