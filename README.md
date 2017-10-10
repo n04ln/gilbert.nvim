@@ -1,4 +1,4 @@
-# gilbert.nvim
+# gilbert.nvim☄
 ![](https://travis-ci.org/NoahOrberg/gilbert.nvim.svg?branch=master)
 
 ## Description
