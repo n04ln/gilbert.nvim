@@ -1,6 +1,6 @@
 # gilbert.nvim
 
-## Desctription
+## Description
 `gilbert.nvim` is neovim plugin that easy file upload to gist using [NoahOrberg/gilbert](http://github.com/NoahOrberg/gilbert).
 
 ## Requirements
@@ -23,10 +23,16 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`.
 
+## Variable
+``` vimscript
+g:gilbert#is_allow_open_brower=1 " allow open browser when `:GiUpload` or `:GiPatch`
+```
+
 ## How To Use
 - Upload current buffer
   - `<FILENAME>` is optional, when use it if buffer is `[No Name]`.
-  - If this command is success, output `URL` and Open your browser.
+  - If this command is success, output `URL`.
+  - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
 ```
 :GiUpload <FILENAME>
 ```
@@ -37,7 +43,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 - Update gist
   - Upload gist-file from current buffer to gist.
-  - If it is success, Open your browser.
+  - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
 ```
 :GiPatch
