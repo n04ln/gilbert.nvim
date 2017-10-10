@@ -145,6 +145,9 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	} else {
 		if filename == "" {
 			filename = noName
+		} else {
+			temp := strings.Split(filename, "/")
+			filename = temp[len(temp)-1]
 		}
 	}
 
@@ -168,10 +171,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := util.Echom(v, url); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
+	util.Echom(v, url)
 
 	if err := checkAndOpenGist(v, url); err != nil {
 		util.Echom(v, err.Error())

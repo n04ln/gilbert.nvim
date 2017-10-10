@@ -24,7 +24,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 2. Restart `nvim`.
 
 ## Variable
-``` vimscript
+``` vim
 g:gilbert#is_allow_open_brower=1 " allow open browser when `:GiUpload` or `:GiPatch`
 ```
 
@@ -33,19 +33,19 @@ g:gilbert#is_allow_open_brower=1 " allow open browser when `:GiUpload` or `:GiPa
   - `<FILENAME>` is optional, when use it if buffer is `[No Name]`.
   - If this command is success, output `URL`.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
-```
+``` vim
 :GiUpload <FILENAME>
 ```
 - Load current buffer.
   - Load Gist of only one file.
-```
+``` vim
 :GiLoad <GIST-ID>
 ```
 - Update gist
   - Upload gist-file from current buffer to gist.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
-```
+``` vim
 :GiPatch
 ```
 
