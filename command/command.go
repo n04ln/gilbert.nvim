@@ -103,7 +103,10 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 }
 
 func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
-	v.Command("enew")
+	if err := util.NewBuffer(v); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
 
 	buf, err := v.CurrentBuffer()
 	if err != nil {
