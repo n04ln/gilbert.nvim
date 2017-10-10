@@ -26,7 +26,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ## How To Use
 - Upload current buffer
   - `<FILENAME>` is optional, when use it if buffer is `[No Name]`.
-  - If this command is success, output `URL`.
+  - If this command is success, output `URL` and Open your browser.
 ```
 :GiUpload <FILENAME>
 ```
@@ -37,6 +37,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 - Update gist
   - Upload gist-file from current buffer to gist.
+  - If it is success, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
 ```
 :GiPatch
