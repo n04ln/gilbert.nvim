@@ -89,7 +89,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 	util.Echom(v, res.HTMLURL)
 
-	if err := checkAndCopyGistURL(v, url); err != nil {
+	if err := checkAndCopyGistURL(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
