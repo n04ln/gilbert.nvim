@@ -72,6 +72,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -79,11 +80,14 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 
 	gi, err := gist.GetGist(id)
 	if err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
 	if len(gi.Files) != 1 {
-		return errors.New("can open only one file gist")
+		err := errors.New("can open only one file gist")
+		util.Echom(v, err.Error())
+		return err
 	}
 
 	var filename string
@@ -99,6 +103,7 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 	}
 
 	if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -108,55 +113,58 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
 	filename, err := v.BufferName(buf)
 	if err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
 	var url string
 	url = "Missing"
-	if filename == "" {
-		if len(args) > 0 {
-			filename = args[0]
-		} else {
+	if len(args) > 0 {
+		filename = args[0]
+	} else {
+		if filename == "" {
 			filename = noName
 		}
+	}
 
-		lines, err := v.BufferLines(buf, 0, -1, true)
-		if err != nil {
-			return err
+	lines, err := v.BufferLines(buf, 0, -1, true)
+	if err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
+	var content string
+	for i, c := range lines {
+		content += string(c)
+		if i < len(lines)-1 {
+			content += "\n"
 		}
+	}
 
-		var content string
-		for i, c := range lines {
-			content += string(c)
-			if i < len(lines)-1 {
-				content += "\n"
-			}
-		}
-
-		url, err = gist.PostToGistByContent("", filename, content)
-		if err != nil {
-			return err
-		}
-
-		splittedURL := strings.Split(url, "/")
-		id := splittedURL[len(splittedURL)-1]
-
-		err = v.SetBufferName(buf, id+"/"+filename)
-	} else {
-		url, err = gist.PostToGistByFile("", filename, false)
-		if err != nil {
-			return err
-		}
+	url, err = gist.PostToGistByContent("", filename, content)
+	if err != nil {
+		util.Echom(v, err.Error())
+		return err
 	}
 
 	if err := util.Echom(v, url); err != nil {
 		util.Echom(v, err.Error())
 		return err
+	}
+
+	if filename == noName {
+		splittedURL := strings.Split(url, "/")
+		id := splittedURL[len(splittedURL)-1]
+		if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
 	}
 
 	return nil
