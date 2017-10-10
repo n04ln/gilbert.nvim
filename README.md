@@ -5,7 +5,7 @@
 
 ## Requirements
 - only use MacOS
-  - because this plugin is using `open` command(to open Upload gist).
+  - because this plugin is using `open` & `pbcopy` command(to open Upload gist).
   - Linux, and Windows does not execute Command.
 - go
 - glide
@@ -25,7 +25,8 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 
 ## Variable
 ``` vim
-g:gilbert#gilbert#allow_open_by_browser=1 " allow open browser when `:GiUpload` or `:GiPatch`
+g:gilbert#allow_open_by_browser=1 " allow open browser when `:GiUpload` or `:GiPatch`
+g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 ```
 
 ## How To Use
