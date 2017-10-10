@@ -14,6 +14,17 @@ const noName = "NoName"
 type Gilbert struct {
 }
 
+// g:gilbert#is_allow_open_browserをチェックし、1ならブラウザで開く
+func checkAndOpenGist(v *nvim.Nvim, url string) error {
+	var isAllow int
+	if v.Var("gilbert#is_allow_open_browser", &isAllow); isAllow == 1 {
+		if err := util.Exec(v, "open "+url); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
@@ -65,7 +76,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := util.Exec(v, "open "+res.HTMLURL); err != nil {
+	if err := checkAndOpenGist(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
@@ -162,7 +173,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := util.Exec(v, "open "+url); err != nil {
+	if err := checkAndOpenGist(v, url); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
