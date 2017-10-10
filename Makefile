@@ -19,3 +19,7 @@ install:
 clean:
 	rm -rf bin/* vendor/*
 
+build:
+	glide install
+	go install
+

@@ -18,11 +18,28 @@
 ``` sh
 $ export GIST_TOKEN=<YOUR TOKEN HERE>
 ```
+### using dein.vim
 1. Please write your `init.vim`.
 ``` vim
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`.
+
+### using Console(Recommended)
+0. Please get this repository.
+``` sh
+$ go get github.com/NoahOrberg/gilbert.nvim
+```
+1. Please build it.
+``` sh
+$ make build
+```
+2. Please write your `init.vim`
+``` vim
+call dein#add('NoahOrberg/gilbert.nvim')
+```
+3. Restart `nvim`.
+
 
 ## Variable
 ``` vim
