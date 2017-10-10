@@ -27,7 +27,6 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	// :GiLoadでロードされる前提にするため、スラッシュから始まっていたら弾く
 	temp := strings.Split(filename, "/")
 	if (temp[0] == "") && (len(temp) != 2) {
 		err := errors.New("didnt open :GiLoad this buffer")
@@ -60,8 +59,13 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		},
 	}
 
-	err = gist.PatchGist(id, gi)
+	res, err := gist.PatchGist(id, gi)
 	if err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
+	if err := util.Exec(v, "open "+res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
@@ -154,6 +158,11 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	}
 
 	if err := util.Echom(v, url); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
+	if err := util.Exec(v, "open "+url); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
