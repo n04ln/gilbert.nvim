@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/NoahOrberg/gilbert/gist"
+	"github.com/NoahOrberg/nvim-go-util/util"
 	"github.com/neovim/go-client/nvim"
 )
 
@@ -16,13 +17,13 @@ type Gilbert struct {
 func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 	buf, err := v.CurrentBuffer()
 	if err != nil {
-		v.Command("echom '" + err.Error() + "'")
+		util.Echom(v, err.Error())
 		return err
 	}
 
 	filename, err := v.BufferName(buf)
 	if err != nil {
-		v.Command("echom '" + err.Error() + "'")
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -30,7 +31,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 	temp := strings.Split(filename, "/")
 	if (temp[0] == "") && (len(temp) != 2) {
 		err := errors.New("didnt open :GiLoad this buffer")
-		v.Command("echom '" + err.Error() + "'")
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -38,7 +39,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 	lines, err := v.BufferLines(buf, 0, -1, true)
 	if err != nil {
-		v.Command("echom '" + err.Error() + "'")
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -61,7 +62,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 	err = gist.PatchGist(id, gi)
 	if err != nil {
-		v.Command("echom '" + err.Error() + "'")
+		util.Echom(v, err.Error())
 		return err
 	}
 
@@ -153,7 +154,8 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		}
 	}
 
-	if err := v.Command("echom '" + url + "'"); err != nil {
+	if err := util.Echom(v, url); err != nil {
+		util.Echom(v, err.Error())
 		return err
 	}
 
