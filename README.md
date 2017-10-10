@@ -25,7 +25,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 
 ## Variable
 ``` vim
-g:gilbert#is_allow_open_brower=1 " allow open browser when `:GiUpload` or `:GiPatch`
+g:gilbert#gilbert#allow_open_by_browser=1 " allow open browser when `:GiUpload` or `:GiPatch`
 ```
 
 ## How To Use
