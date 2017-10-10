@@ -14,11 +14,11 @@
 
 ## Installation
 0. Please set ENVIRONMENT VARIABLE because using `gilbert`.
-```
+``` sh
 $ export GIST_TOKEN=<YOUR TOKEN HERE>
 ```
 1. Please write your `init.vim`.
-```
+``` vim
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`.
