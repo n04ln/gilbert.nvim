@@ -76,6 +76,8 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
+	util.Echom(v, res.HTMLURL)
+
 	if err := checkAndOpenGist(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
