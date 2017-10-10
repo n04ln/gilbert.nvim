@@ -37,7 +37,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 ``` vim
 :GiUpload <FILENAME>
 ```
-- Load current buffer.
+- Load new buffer.
   - Load Gist of only one file.
 ``` vim
 :GiLoad <GIST-ID>
