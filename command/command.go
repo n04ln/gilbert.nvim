@@ -11,7 +11,8 @@ import (
 )
 
 const noName = "NoName"
-const loadingDuration = 100
+const loadingDuration = 50
+const loadingCnt = 10
 
 type Gilbert struct {
 }
@@ -116,37 +117,9 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	var cnt uint64
 	kill := make(chan bool)
 
-	go func() {
-		for {
-			loading := []byte("Loading")
-			waiting := []byte("Please waiting")
-			d := byte('.')
-			var i uint64
-			for i = 0; i < cnt%5; i++ {
-				loading = append(loading, d)
-				waiting = append(waiting, d)
-			}
-			if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
-				loading,
-				waiting,
-			}); err != nil {
-				util.Echom(v, err.Error())
-				return
-			}
-			cnt++
-
-			time.Sleep(loadingDuration * time.Millisecond)
-
-			select {
-			case <-kill:
-				return
-			default:
-			}
-		}
-	}()
+	go loadAnimation(v, buf, kill)
 
 	// args[0] は、id,URLのどちらかを想定しているが、スラッシュで区切って最後の要素なのは変わらない
 	temp := strings.Split(args[0], "/")
@@ -189,6 +162,36 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 	}
 
 	return nil
+}
+
+func loadAnimation(v *nvim.Nvim, buf nvim.Buffer, kill chan bool) {
+	var cnt uint64
+	d := byte('.')
+	for {
+		loading := []byte("Loading")
+		waiting := []byte("Please waiting")
+		var i uint64
+		for i = 0; i < cnt%loadingCnt; i++ {
+			loading = append(loading, d)
+			waiting = append(waiting, d)
+		}
+		if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
+			loading,
+			waiting,
+		}); err != nil {
+			util.Echom(v, err.Error())
+			return
+		}
+		cnt++
+
+		time.Sleep(loadingDuration * time.Millisecond)
+
+		select {
+		case <-kill:
+			return
+		default:
+		}
+	}
 }
 
 func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
