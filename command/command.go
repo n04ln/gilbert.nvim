@@ -103,8 +103,18 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 }
 
 func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
+	v.Command("enew")
+
 	buf, err := v.CurrentBuffer()
 	if err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
+	if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
+		[]byte("Loading..."),
+		[]byte("Please wait..."),
+	}); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
@@ -140,7 +150,12 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	return v.SetBufferLines(buf, 0, -1, true, lines)
+	if err := v.SetBufferLines(buf, 0, -1, true, lines); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
+	return nil
 }
 
 func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
