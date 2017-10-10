@@ -3,6 +3,7 @@ package command
 import (
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/NoahOrberg/gilbert/gist"
 	"github.com/NoahOrberg/nvim-go-util/util"
@@ -10,6 +11,7 @@ import (
 )
 
 const noName = "NoName"
+const loadingDuration = 100
 
 type Gilbert struct {
 }
@@ -114,13 +116,37 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
-		[]byte("Loading..."),
-		[]byte("Please wait..."),
-	}); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
+	var cnt uint64
+	kill := make(chan bool)
+
+	go func() {
+		for {
+			loading := []byte("Loading")
+			waiting := []byte("Please waiting")
+			d := byte('.')
+			var i uint64
+			for i = 0; i < cnt%5; i++ {
+				loading = append(loading, d)
+				waiting = append(waiting, d)
+			}
+			if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
+				loading,
+				waiting,
+			}); err != nil {
+				util.Echom(v, err.Error())
+				return
+			}
+			cnt++
+
+			time.Sleep(loadingDuration * time.Millisecond)
+
+			select {
+			case <-kill:
+				return
+			default:
+			}
+		}
+	}()
 
 	// args[0] は、id,URLのどちらかを想定しているが、スラッシュで区切って最後の要素なのは変わらない
 	temp := strings.Split(args[0], "/")
@@ -154,6 +180,8 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		util.Echom(v, err.Error())
 		return err
 	}
+
+	kill <- true
 
 	if err := v.SetBufferLines(buf, 0, -1, true, lines); err != nil {
 		util.Echom(v, err.Error())
