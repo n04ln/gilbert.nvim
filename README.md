@@ -1,4 +1,9 @@
 # gilbert.nvim
+master
+![](https://travis-ci.org/NoahOrberg/gilbert.nvim.svg?branch=master)
+
+develop
+![](https://travis-ci.org/NoahOrberg/gilbert.nvim.svg?branch=develop)
 
 ## Description
 `gilbert.nvim` is neovim plugin that easy file upload to gist using [NoahOrberg/gilbert](http://github.com/NoahOrberg/gilbert).
