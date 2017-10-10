@@ -122,7 +122,9 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	id := args[0]
+	// args[0] は、id,URLのどちらかを想定しているが、スラッシュで区切って最後の要素なのは変わらない
+	temp := strings.Split(args[0], "/")
+	id := temp[len(temp)-1]
 
 	gi, err := gist.GetGist(id)
 	if err != nil {
