@@ -197,7 +197,7 @@ func loadAnimation(v *nvim.Nvim, buf nvim.Buffer, kill chan bool) {
 	d := byte('.')
 	for {
 		loading := []byte("Loading")
-		waiting := []byte("Please waiting")
+		waiting := []byte("Please wait")
 		var i uint64
 		for i = 0; i < cnt%loadingCnt; i++ {
 			loading = append(loading, d)
