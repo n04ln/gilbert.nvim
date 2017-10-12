@@ -57,12 +57,13 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 :GiUpload <FILENAME>
 ```
 - Load new buffer.
-  - Load Gist of only one file.
+  - Load Gist.
+  - Open some buffer.
 ``` vim
 :GiLoad <GIST-ID or GIST-URL>
 ```
 - Update gist
-  - Upload gist-file from current buffer to gist.
+  - Upload all gist-file related from current buffer to gist.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
 ``` vim
