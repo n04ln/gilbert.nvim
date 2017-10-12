@@ -15,8 +15,7 @@ const noName = "NoName"
 const loadingDuration = 50
 const loadingCnt = 10
 
-type Gilbert struct {
-}
+type Gilbert struct{}
 
 // g:gilbert#allow_open_by_browser をチェックし、1ならブラウザで開く
 func checkAndOpenGist(v *nvim.Nvim, url string) error {
@@ -49,6 +48,23 @@ func getGistIDFromBufferID(v *nvim.Nvim, buf nvim.Buffer) (string, error) {
 		return "", errors.New("this buffer is not gist")
 	}
 	return res, nil
+}
+
+// 指定gist_idのバッファと、vimscript変数からすべて消す
+func deleteBuffersOfGistID(v *nvim.Nvim, gistID string) error {
+	var bufferMap map[string]string
+	v.Var("gilbert#buffer_and_gist_id_info", &bufferMap)
+	b := v.NewBatch()
+	for key, value := range bufferMap {
+		if value == gistID {
+			b.Command("bw! " + key)
+			b.Command("call remove(gilbert#buffer_and_gist_id_info, '" + key + "')")
+		}
+	}
+	if err := b.Execute(); err != nil {
+		return err
+	}
+	return nil
 }
 
 func getBufferIDsFromGistID(v *nvim.Nvim, gistID string) ([]nvim.Buffer, error) {
@@ -159,6 +175,12 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		util.Echom(v, err.Error())
 		return err
 	}
+
+	if err := deleteBuffersOfGistID(v, gistID); err != nil {
+		util.Echom(v, err.Error())
+		return err
+	}
+
 	return nil
 }
 
@@ -197,7 +219,7 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 			return err
 		}
 
-		if err := v.SetBufferName(buf, filename); err != nil {
+		if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
 			util.Echom(v, err.Error())
 			return err
 		}
