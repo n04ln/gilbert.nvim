@@ -10,7 +10,7 @@
   - Linux, and Windows does not execute Command.
 - go
 - glide
-  - But it is NOT using now because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed `$GOPATH`. (cannot be vendoring)
+  - But it is NOT using now because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed in `$GOPATH`. (cannot be vendoring)
 - make
 
 ## Installation
@@ -26,7 +26,7 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`.
 
-Perhaps, some problems may happen ;(
+Perhaps, some problems may happen ;(  
 Therefore, will recommended another install-method.
 
 ### using console and dein.vim(RECOMMENDED)
@@ -69,7 +69,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
   - Upload all gist-file related from current buffer to gist.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
-  - And After execute this command, related buffer will be closed.
+  - And after execute this command, related buffer will be closed.
 ``` vim
 :GiPatch
 ```
