@@ -68,7 +68,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 - Update gist
   - Upload all gist-file related from current buffer to gist.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
-  - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
+  - Should be load by `:GiLoad <GIST-ID>` to current buffer or execute `:GiUpload` command from `NoName` buffer before execute this command.
   - And after execute this command, related buffer will be closed.
 ``` vim
 :GiPatch
