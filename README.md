@@ -26,6 +26,9 @@ call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
 ```
 2. Restart `nvim`.
 
+Perhaps, some problems may happen ;(
+Therefore, will recommended another install-method.
+
 ### using console and dein.vim(RECOMMENDED)
 1. Please `go get` this repository.
 ``` sh
@@ -50,7 +53,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 
 ## How To Use
 - Upload current buffer
-  - `<FILENAME>` is optional, when use it if buffer is `[No Name]`.
+  - `<FILENAME>` is optional. For example when use it if buffer is `[No Name]`.
   - If this command is success, output `URL`.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
 ``` vim
@@ -66,6 +69,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
   - Upload all gist-file related from current buffer to gist.
   - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer before execute OR already `:GiUpload` command from `NoName` buffer.
+  - And After execute this command, related buffer will be closed.
 ``` vim
 :GiPatch
 ```
