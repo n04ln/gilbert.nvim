@@ -51,16 +51,37 @@ func getGistIDFromBufferID(v *nvim.Nvim, buf nvim.Buffer) (string, error) {
 	return res, nil
 }
 
+func getBufferIDsFromGistID(v *nvim.Nvim, gistID string) ([]nvim.Buffer, error) {
+	bs := []nvim.Buffer{}
+
+	var bufferMap map[string]string
+	v.Var("gilbert#buffer_and_gist_id_info", &bufferMap)
+	for k, v := range bufferMap {
+		if v == gistID {
+			b, err := strconv.Atoi(k)
+			if err != nil {
+				return nil, err
+			}
+			bs = append(bs, nvim.Buffer(b))
+		}
+	}
+
+	if len(bs) == 0 {
+		return nil, errors.New("No such buffer(getBufferIDsFromGistID)")
+	}
+	return bs, nil
+}
+
 // gist_idの情報を追加
 func setGistIDFromBufferID(v *nvim.Nvim, buf nvim.Buffer, gistID string) error {
-	var bufferMap map[int]string
+	var bufferMap map[string]string
 	if err := v.Var("gilbert#buffer_and_gist_id_info", &bufferMap); err != nil {
 		return err
 	}
 	// bufferMap[int(buf)] = gistID
 	b := strconv.Itoa(int(buf))
 	// return v.SetVar("gilbert#buffer_and_gist_id_info", bufferMap)
-	return v.Command("let g:gilbert#buffer_and_gist_id_info[" + b + "]='" + gistID + "'")
+	return v.Command("let g:gilbert#buffer_and_gist_id_info['" + b + "']='" + gistID + "'")
 }
 
 func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
@@ -70,44 +91,58 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	filename, err := v.BufferName(buf)
+	gistID, err := getGistIDFromBufferID(v, buf)
 	if err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
 
-	temp := strings.Split(filename, "/")
-	filename = temp[len(temp)-1]
-
-	id, err := getGistIDFromBufferID(v, buf)
+	bufs, err := getBufferIDsFromGistID(v, gistID)
 	if err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
 
-	lines, err := v.BufferLines(buf, 0, -1, true)
-	if err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
+	files := map[string]gist.File{}
 
-	var content string
-	for i, c := range lines {
-		content += string(c)
-		if i < len(lines)-1 {
-			content += "\n"
+	for _, buf := range bufs {
+		filename, err := v.BufferName(buf)
+		if err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		if filename == "" {
+			filename = noName
+		}
+
+		temp := strings.Split(filename, "/")
+		filename = temp[len(temp)-1]
+
+		lines, err := v.BufferLines(buf, 0, -1, true)
+		if err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		var content string
+		for i, c := range lines {
+			content += string(c)
+			if i < len(lines)-1 {
+				content += "\n"
+			}
+		}
+
+		files[filename] = gist.File{
+			Content: content,
 		}
 	}
 
 	gi := gist.Gist{
-		Files: map[string]gist.File{
-			filename: gist.File{
-				Content: content,
-			},
-		},
+		Files: files,
 	}
 
-	res, err := gist.PatchGist(id, gi)
+	res, err := gist.PatchGist(gistID, gi)
 	if err != nil {
 		util.Echom(v, err.Error())
 		return err
@@ -124,27 +159,10 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		util.Echom(v, err.Error())
 		return err
 	}
-
 	return nil
 }
 
 func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
-	if err := util.NewBuffer(v); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
-	buf, err := v.CurrentBuffer()
-	if err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
-	kill := make(chan bool)
-
-	go loadAnimation(v, buf, kill)
-
-	// args[0] は、id,URLのどちらかを想定しているが、スラッシュで区切って最後の要素なのは変わらない
 	temp := strings.Split(args[0], "/")
 	id := temp[len(temp)-1]
 
@@ -154,41 +172,41 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if len(gi.Files) != 1 {
-		err := errors.New("can open only one file gist")
-		util.Echom(v, err.Error())
-		return err
+	for filename, file := range gi.Files {
+		if err := util.NewBuffer(v); err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		buf, err := v.CurrentBuffer()
+		if err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		var strLines []string
+		strLines = strings.Split(file.Content, "\n")
+
+		lines := make([][]byte, 0, len(strLines))
+		for _, line := range strLines {
+			lines = append(lines, []byte(line))
+		}
+
+		if err := setGistIDFromBufferID(v, buf, id); err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		if err := v.SetBufferName(buf, filename); err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
+
+		if err := v.SetBufferLines(buf, 0, -1, true, lines); err != nil {
+			util.Echom(v, err.Error())
+			return err
+		}
 	}
-
-	var filename string
-	var strLines []string
-	for key, value := range gi.Files {
-		filename = key
-		strLines = strings.Split(value.Content, "\n")
-	}
-
-	lines := make([][]byte, 0, len(strLines))
-	for _, line := range strLines {
-		lines = append(lines, []byte(line))
-	}
-
-	if err := setGistIDFromBufferID(v, buf, id); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
-	if err := v.SetBufferName(buf, filename); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
-	kill <- true
-
-	if err := v.SetBufferLines(buf, 0, -1, true, lines); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
 	return nil
 }
 
@@ -286,11 +304,6 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	splittedURL := strings.Split(url, "/")
 	id := splittedURL[len(splittedURL)-1]
 	if err := setGistIDFromBufferID(v, buf, id); err != nil {
-		util.Echom(v, err.Error())
-		return err
-	}
-
-	if err := v.SetBufferName(buf, filepath); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
