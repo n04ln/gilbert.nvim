@@ -121,11 +121,11 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 			return err
 		}
 
-		if filename == "" {
-			filename = noName
+		temp := strings.Split(filename, "/")
+		if temp[0] != gistID {
+			continue
 		}
 
-		temp := strings.Split(filename, "/")
 		filename = temp[len(temp)-1]
 
 		lines, err := v.BufferLines(buf, 0, -1, true)
@@ -224,11 +224,13 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	if err != nil {
 		return err
 	}
+	var isExistFile bool
 
 	var url string
 	var filename string
 	url = "Missing"
 	if filepath == "" {
+		isExistFile = false
 		if len(args) > 0 {
 			filename = args[0]
 			filepath = args[0]
@@ -237,6 +239,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 			filename = noName
 		}
 	} else {
+		isExistFile = true
 		temp := strings.Split(filepath, "/")
 		filename = temp[len(temp)-1]
 	}
@@ -273,6 +276,12 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	id := splittedURL[len(splittedURL)-1]
 	if err := setGistIDFromBufferID(v, buf, id); err != nil {
 		return err
+	}
+
+	if !isExistFile {
+		if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
+			return err
+		}
 	}
 
 	return nil
