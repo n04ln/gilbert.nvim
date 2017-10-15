@@ -16,7 +16,8 @@
 ## Installation
 0. Please set ENVIRONMENT VARIABLE because using `gilbert`.
 ``` sh
-$ export GIST_TOKEN=<YOUR TOKEN HERE>
+$ export GILBERT_GISTTOKEN=<YOUR TOKEN HERE>
+$ export GILBERT_GISTURL=https://api.github.com/gists
 ```
 
 ### using only dein.vim
