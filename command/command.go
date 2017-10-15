@@ -4,7 +4,6 @@ import (
 	"errors"
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/NoahOrberg/gilbert/gist"
 	"github.com/NoahOrberg/nvim-go-util/util"
@@ -12,8 +11,6 @@ import (
 )
 
 const noName = "NoName"
-const loadingDuration = 50
-const loadingCnt = 10
 
 type Gilbert struct{}
 
@@ -230,36 +227,6 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		}
 	}
 	return nil
-}
-
-func loadAnimation(v *nvim.Nvim, buf nvim.Buffer, kill chan bool) {
-	var cnt uint64
-	d := byte('.')
-	for {
-		loading := []byte("Loading")
-		waiting := []byte("Please wait")
-		var i uint64
-		for i = 0; i < cnt%loadingCnt; i++ {
-			loading = append(loading, d)
-			waiting = append(waiting, d)
-		}
-		if err := v.SetBufferLines(buf, 0, -1, true, [][]byte{
-			loading,
-			waiting,
-		}); err != nil {
-			util.Echom(v, err.Error())
-			return
-		}
-		cnt++
-
-		time.Sleep(loadingDuration * time.Millisecond)
-
-		select {
-		case <-kill:
-			return
-		default:
-		}
-	}
 }
 
 func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
