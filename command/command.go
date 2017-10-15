@@ -58,7 +58,7 @@ func deleteBuffersOfGistID(v *nvim.Nvim, gistID string) error {
 	for key, value := range bufferMap {
 		if value == gistID {
 			b.Command("bw! " + key)
-			b.Command("call remove(gilbert#buffer_and_gist_id_info, '" + key + "')")
+			b.Command("call remove(g:gilbert#buffer_and_gist_id_info, '" + key + "')")
 		}
 	}
 	if err := b.Execute(); err != nil {
@@ -166,12 +166,12 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 	util.Echom(v, res.HTMLURL)
 
-	if err := checkAndCopyGistURL(v, res.HTMLURL); err != nil {
+	if err := checkAndOpenGist(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
 
-	if err := checkAndOpenGist(v, res.HTMLURL); err != nil {
+	if err := checkAndCopyGistURL(v, res.HTMLURL); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
@@ -313,12 +313,12 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 
 	util.Echom(v, url)
 
-	if err := checkAndCopyGistURL(v, url); err != nil {
+	if err := checkAndOpenGist(v, url); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
 
-	if err := checkAndOpenGist(v, url); err != nil {
+	if err := checkAndCopyGistURL(v, url); err != nil {
 		util.Echom(v, err.Error())
 		return err
 	}
