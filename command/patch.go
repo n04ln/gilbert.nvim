@@ -26,6 +26,11 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 	files := map[string]gist.File{}
 
+	giloadedIds, err := getGistIDByGiLoaded(v)
+	if err != nil {
+		return err
+	}
+
 	for _, buf := range bufs {
 		filename, err := v.BufferName(buf)
 		if err != nil {
@@ -33,8 +38,10 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		}
 
 		temp := strings.Split(filename, "/")
-		if temp[0] != gistID {
-			continue
+		if _, ok := giloadedIds[gistID]; ok {
+			if temp[0] != gistID {
+				continue
+			}
 		}
 
 		filename = temp[len(temp)-1]
@@ -76,8 +83,10 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	if err := deleteBuffersOfGistID(v, gistID); err != nil {
-		return err
+	if _, ok := giloadedIds[gistID]; ok {
+		if err := deleteBuffersOfGistID(v, gistID); err != nil {
+			return err
+		}
 	}
 
 	return nil

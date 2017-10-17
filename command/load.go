@@ -46,6 +46,10 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		if err := v.SetBufferLines(buf, 0, -1, true, lines); err != nil {
 			return err
 		}
+
+		if err := setGistIDToGiLoaded(v, id); err != nil {
+			return err
+		}
 	}
 	return nil
 }

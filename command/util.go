@@ -94,3 +94,21 @@ func setGistIDFromBufferID(v *nvim.Nvim, buf nvim.Buffer, gistID string) error {
 	// return v.SetVar("gilbert#buffer_and_gist_id_info", bufferMap)
 	return v.Command("let g:gilbert#buffer_and_gist_id_info['" + b + "']='" + gistID + "'")
 }
+
+// Loadしたものかどうかを入れておく
+func setGistIDToGiLoaded(v *nvim.Nvim, gistID string) error {
+	var flagMap map[string]int
+	if err := v.Var("gilbert#is_loaded_by_giload", &flagMap); err != nil {
+		return err
+	}
+	return v.Command("let g:gilbert#is_loaded_by_giload['" + gistID + "']=1")
+}
+
+// mapにして返す
+func getGistIDByGiLoaded(v *nvim.Nvim) (map[string]int, error) {
+	var flagMap map[string]int
+	if err := v.Var("gilbert#is_loaded_by_giload", &flagMap); err != nil {
+		return map[string]int{}, err
+	}
+	return flagMap, nil
+}
