@@ -6,17 +6,18 @@
 
 ## Requirements
 - only use MacOS
-  - because this plugin is using `open` & `pbcopy` command(to open Upload gist).
+  - because this plugin is using `open` & `pbcopy` command.
   - Linux, and Windows does not execute Command.
 - go
+  - version `1.8` or `1.9`
 - glide
-  - But it is NOT using now because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed in `$GOPATH`. (cannot be vendoring)
+  - But it is NOT using by [Installation - using only dein.vim](https://github.com/NoahOrberg/gilbert.nvim#installation) because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed in `$GOPATH`. (cannot be vendoring)
 - make
 
 ## Installation
 0. Please set ENVIRONMENT VARIABLE because using `gilbert`.
 ``` sh
-$ export GILBERT_GISTTOKEN=<YOUR TOKEN HERE>
+$ export GILBERT_GISTTOKEN=********
 $ export GILBERT_GISTURL=https://api.github.com/gists
 ```
 
@@ -46,7 +47,7 @@ call dein#add('NoahOrberg/gilbert.nvim')
 4. Restart `nvim`.
 
 
-## Variable
+## VARIABLE 
 ``` vim
 g:gilbert#allow_open_by_browser=1 " allow open browser when `:GiUpload` or `:GiPatch`
 g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
@@ -56,7 +57,6 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 - Upload current buffer
   - `<FILENAME>` is optional. For example when use it if buffer is `[No Name]`.
   - If this command is success, output `URL`.
-  - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
 ``` vim
 :GiUpload <FILENAME>
 ```
@@ -68,7 +68,6 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 ```
 - Update gist
   - Upload all gist-file related from current buffer to gist.
-  - If it is success and `g:gilbert#is_allow_open_brower==1`, Open your browser.
   - Should be load by `:GiLoad <GIST-ID>` to current buffer or execute `:GiUpload` command from `NoName` buffer before execute this command.
   - And after execute this command, related buffer will be closed.
 ``` vim
