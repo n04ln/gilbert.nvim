@@ -50,6 +50,10 @@ func (g *Gilbert) GilbertLoad(v *nvim.Nvim, args []string) error {
 		if err := setGistIDToGiLoaded(v, id); err != nil {
 			return err
 		}
+
+		if err := clearUndo(v); err != nil {
+			return err
+		}
 	}
 	return nil
 }

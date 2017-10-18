@@ -112,3 +112,8 @@ func getGistIDByGiLoaded(v *nvim.Nvim) (map[string]int, error) {
 	}
 	return flagMap, nil
 }
+
+// delete history
+func clearUndo(v *nvim.Nvim) error {
+	return v.Command("call Gi_clear_undo()")
+}
