@@ -13,13 +13,6 @@ let g:gilbert#is_loaded_by_giload={}
 " g:gilbert#buffer_and_gist_id_info is buffer information
 "   e.g, {'buffer_id' : 'gist_id'}
 let g:gilbert#buffer_and_gist_id_info={}
-" flush undo history
-function! Gi_clear_undo() abort
-    let old_undolevels = &undolevels
-    setlocal undolevels=-1
-    execute "normal! a \<BS>\<ESC>"
-    let &l:undolevels = old_undolevels
-endfunction
 
 call remote#host#Register('gilbert.nvim', '0', function('s:RequireGilbert'))
 call remote#host#RegisterPlugin('gilbert.nvim', '0', [
