@@ -11,7 +11,7 @@
 - go
   - version `1.8` or `1.9`
 - glide
-  - But it is NOT using by [Installation - using only dein.vim](https://github.com/NoahOrberg/gilbert.nvim#installation) because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed in `$GOPATH`. (cannot be vendoring)
+  - But it is NOT using by [Installation - using only dein.vim](https://github.com/NoahOrberg/gilbert.nvim#using-only-deinvim) because `$XDG_CONFIG_HOME` is NOT included `$GOPATH`. And dependent packages are installed by `util/dep.sh` and it placed in `$GOPATH`. (cannot be vendoring)
 - make
 
 ## Installation
