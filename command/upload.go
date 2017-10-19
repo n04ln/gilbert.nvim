@@ -1,6 +1,7 @@
 package command
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/NoahOrberg/gilbert/gist"
@@ -49,6 +50,10 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		if i < len(lines)-1 {
 			content += "\n"
 		}
+	}
+
+	if !fileExists && content == "" {
+		return errors.New("this is empty buffer")
 	}
 
 	url, err = gist.PostToGistByContent("", filename, content)
