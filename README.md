@@ -2,7 +2,7 @@
 ![](https://travis-ci.org/NoahOrberg/gilbert.nvim.svg?branch=master)
 
 ## Description
-`gilbert.nvim` is neovim plugin that easy file upload to gist using [NoahOrberg/gilbert](http://github.com/NoahOrberg/gilbert).
+`gilbert.nvim` is neovim plugin that easy file load, upload, update(patch) to gist using [NoahOrberg/gilbert](http://github.com/NoahOrberg/gilbert).
 
 ## Requirements
 - only use MacOS
@@ -63,6 +63,8 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 - Load new buffer.
   - Load Gist.
   - Open some buffer.
+  -  Auto save gist-files in `~/.gilbert/<gist_id>/<file_name>` when you load gist.
+    - However, It's just a workspace(you can use `quickrun`, `syntax highliight` and so on).
 ``` vim
 :GiLoad <GIST-ID or GIST-URL>
 ```
