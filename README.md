@@ -21,7 +21,7 @@ $ export GILBERT_GISTTOKEN=********
 $ export GILBERT_GISTURL=https://api.github.com/gists
 ```
 
-### using only dein.vim
+### Quickstart [using only dein.vim]
 1. Please write your `init.vim`.
 ``` vim
 call dein#add('NoahOrberg/gilbert.nvim', {'build' : 'make'})
@@ -63,7 +63,7 @@ g:gilbert#should_copy_url_to_clipboard=1 " allow copy URL to clipboard
 - Load new buffer.
   - Load Gist.
   - Open some buffer.
-  -  Auto save gist-files in `~/.gilbert/<gist_id>/<file_name>` when you load gist.
+  - Auto save gist-files in `~/.gilbert/<gist_id>/<file_name>` when you load gist.
     - However, It's just a workspace(you can use `quickrun`, `syntax highliight` and so on).
 ``` vim
 :GiLoad <GIST-ID or GIST-URL>

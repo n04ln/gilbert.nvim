@@ -1,5 +1,5 @@
 hash: 56e6ee923676a1fa736ef6f5b7bdb885cec48c0982a7616eb27cca12fbdeed80
-updated: 2017-10-26T13:11:43.900078141+09:00
+updated: 2017-10-26T13:35:01.949312168+09:00
 imports:
 - name: github.com/kelseyhightower/envconfig
   version: 462fda1f11d8cad3660e52737b8beefd27acfb3f
@@ -11,7 +11,7 @@ imports:
   - nvim
   - nvim/plugin
 - name: github.com/NoahOrberg/gilbert
-  version: 4328b0cdc93a33069f42e4e7b5a97f17d579c572
+  version: 23576be5dd101a41adb10d8699b3b377a4494068
   subpackages:
   - config
   - gist
