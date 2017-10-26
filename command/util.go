@@ -117,3 +117,13 @@ func getGistIDByGiLoaded(v *nvim.Nvim) (map[string]int, error) {
 func clearUndo(v *nvim.Nvim) error {
 	return v.Command("call gilbert#clear_undo()")
 }
+
+// save
+func saveFileInCurrentBuffer(v *nvim.Nvim) error {
+	return v.Command("w!") // NOTE: !!!overwrite
+}
+
+// open
+func openFileInCurrentBuffer(v *nvim.Nvim, file string) error {
+	return v.Command("e " + file)
+}

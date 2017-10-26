@@ -1,6 +1,7 @@
 package: github.com/NoahOrberg/gilbert.nvim
 import:
 - package: github.com/NoahOrberg/gilbert
+  version: develop
   subpackages:
   - gist
 - package: github.com/NoahOrberg/nvim-go-util
