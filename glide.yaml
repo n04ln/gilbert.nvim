@@ -3,6 +3,7 @@ import:
 - package: github.com/NoahOrberg/gilbert
   version: develop
   subpackages:
+  - config
   - gist
 - package: github.com/NoahOrberg/nvim-go-util
   subpackages:
