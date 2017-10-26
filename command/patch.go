@@ -39,7 +39,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 
 		temp := strings.Split(filename, "/")
 		if _, ok := giloadedIds[gistID]; ok {
-			if temp[0] != gistID {
+			if temp[len(temp)-2] != gistID {
 				continue
 			}
 		}
