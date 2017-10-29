@@ -23,3 +23,5 @@ build:
 	glide install
 	go install
 
+builda:
+	go build -ldflags "-w -s" -o bin/$(NAME)
