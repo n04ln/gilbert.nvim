@@ -96,7 +96,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 			return err
 		}
 		// TODO: I don't know best practice ;(
-		//       because to active syntax highlight
+		//       re-open file in `~/.gilbert/<gist_id>/` because to active syntax highlight
 		if err := openFileInCurrentBuffer(v, dir+"/"+filename); err != nil {
 			return err
 		}
