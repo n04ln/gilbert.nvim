@@ -4,6 +4,7 @@ import (
 	"errors"
 	"strings"
 
+	wsconfig "github.com/NoahOrberg/gilbert/config"
 	"github.com/NoahOrberg/gilbert/gist"
 	"github.com/NoahOrberg/nvim-go-util/util"
 	"github.com/neovim/go-client/nvim"
@@ -79,6 +80,10 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 
 	if !fileExists {
 		if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
+			return err
+		}
+
+		if err := saveFileInCurrentBufferWithName(v, wsconfig.GetConfig().Workspace+"/"+id+"/"+filename); err != nil {
 			return err
 		}
 	}

@@ -123,6 +123,12 @@ func saveFileInCurrentBuffer(v *nvim.Nvim) error {
 	return v.Command("w!") // NOTE: !!!overwrite
 }
 
+// save with filename
+func saveFileInCurrentBufferWithName(v *nvim.Nvim, path string) error {
+	v.Command("echo '" + path + "'")
+	return v.Command("w! " + path) // NOTE: !!!overwrite
+}
+
 // open
 func openFileInCurrentBuffer(v *nvim.Nvim, file string) error {
 	return v.Command("e " + file)
