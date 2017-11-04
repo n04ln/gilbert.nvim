@@ -2,6 +2,7 @@ package command
 
 import (
 	"errors"
+	"os"
 	"strings"
 
 	wsconfig "github.com/NoahOrberg/gilbert/config"
@@ -78,12 +79,25 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
+	wsconf := wsconfig.GetConfig()
+
 	if !fileExists {
-		if err := v.SetBufferName(buf, id+"/"+filename); err != nil {
+		if err := v.SetBufferName(buf, wsconf.Workspace+"/"+id+"/"+filename); err != nil {
 			return err
 		}
 
-		if err := saveFileInCurrentBufferWithName(v, wsconfig.GetConfig().Workspace+"/"+id+"/"+filename); err != nil {
+		dir := wsconf.Workspace + "/" + id
+		if _, err := os.Stat(dir); err != nil {
+			if err := os.MkdirAll(dir, 0755); err != nil {
+				return err
+			}
+		}
+		if err := saveFileInCurrentBufferWithName(v, dir+"/"+filename); err != nil {
+			return err
+		}
+		// TODO: I don't know best practice ;(
+		//       because to active syntax highlight
+		if err := openFileInCurrentBuffer(v, dir+"/"+filename); err != nil {
 			return err
 		}
 	}
