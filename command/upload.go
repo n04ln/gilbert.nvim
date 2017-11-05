@@ -63,8 +63,6 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	util.Echom(v, url)
-
 	if err := checkAndOpenGist(v, url); err != nil {
 		return err
 	}
@@ -95,11 +93,48 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		if err := saveFileInCurrentBufferWithName(v, dir+"/"+filename); err != nil {
 			return err
 		}
-		// TODO: I don't know best practice ;(
+		// NOTE: I don't know best practice ;(
 		//       re-open file in `~/.gilbert/<gist_id>/` because to active syntax highlight
 		if err := openFileInCurrentBuffer(v, dir+"/"+filename); err != nil {
 			return err
 		}
+		// NOTE: patch file because maybe(e.g. Go-file) file is formatted when it is saved.
+		if err := reuploadFile(v, buf, id, filename); err != nil {
+			return err
+		}
+	}
+
+	util.Echom(v, url)
+
+	return nil
+}
+
+func reuploadFile(v *nvim.Nvim, buf nvim.Buffer, id, filename string) error {
+	lines, err := v.BufferLines(buf, 0, -1, true)
+	if err != nil {
+		return err
+	}
+
+	var content string
+	for i, c := range lines {
+		content += string(c)
+		if i < len(lines)-1 {
+			content += "\n"
+		}
+	}
+
+	files := map[string]gist.File{}
+	files[filename] = gist.File{
+		Content: content,
+	}
+
+	gi := gist.Gist{
+		Files: files,
+	}
+
+	_, err = gist.PatchGist(id, gi)
+	if err != nil {
+		return err
 	}
 
 	return nil
