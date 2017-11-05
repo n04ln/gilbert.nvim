@@ -41,17 +41,9 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		filename = temp[len(temp)-1]
 	}
 
-	lines, err := v.BufferLines(buf, 0, -1, true)
+	content, err := getContentFromBuffer(v, buf)
 	if err != nil {
 		return err
-	}
-
-	var content string
-	for i, c := range lines {
-		content += string(c)
-		if i < len(lines)-1 {
-			content += "\n"
-		}
 	}
 
 	if !fileExists && content == "" {
@@ -90,14 +82,17 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 				return err
 			}
 		}
+
 		if err := saveFileInCurrentBufferWithName(v, dir+"/"+filename); err != nil {
 			return err
 		}
+
 		// NOTE: I don't know best practice ;(
 		//       re-open file in `~/.gilbert/<gist_id>/` because to active syntax highlight
 		if err := openFileInCurrentBuffer(v, dir+"/"+filename); err != nil {
 			return err
 		}
+
 		// NOTE: patch file because maybe(e.g. Go-file) file is formatted when it is saved.
 		if err := reuploadFile(v, buf, id, filename); err != nil {
 			return err
@@ -109,10 +104,10 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	return nil
 }
 
-func reuploadFile(v *nvim.Nvim, buf nvim.Buffer, id, filename string) error {
+func getContentFromBuffer(v *nvim.Nvim, buf nvim.Buffer) (string, error) {
 	lines, err := v.BufferLines(buf, 0, -1, true)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	var content string
@@ -121,6 +116,15 @@ func reuploadFile(v *nvim.Nvim, buf nvim.Buffer, id, filename string) error {
 		if i < len(lines)-1 {
 			content += "\n"
 		}
+	}
+
+	return content, nil
+}
+
+func reuploadFile(v *nvim.Nvim, buf nvim.Buffer, id, filename string) error {
+	content, err := getContentFromBuffer(v, buf)
+	if err != nil {
+		return err
 	}
 
 	files := map[string]gist.File{}
