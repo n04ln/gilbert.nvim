@@ -41,7 +41,6 @@ func (s Scoop) String() string {
 const (
 	noName = "NoName"
 	// vimscript variable
-	// GlobalScoop (prefix is `g:`)
 	allowOpenByBrowser       = "gilbert#allow_open_by_browser"
 	shouldCopyURLToClipBoard = "gilbert#should_copy_url_to_clipboard"
 	bufferAndGistIDInfo      = "gilbert#buffer_and_gist_id_info"
