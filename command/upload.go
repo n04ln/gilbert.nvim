@@ -17,6 +17,8 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
+	// TODO: UploadもしくはLoadされたものに更にUploadをした場合はPatchを適用するようにする
+
 	filepath, err := v.BufferName(buf)
 	if err != nil {
 		return err
@@ -29,11 +31,9 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 	if filepath == "" {
 		fileExists = false
 		if len(args) > 0 {
-			filename = args[0]
-			filepath = args[0]
+			filepath, filename = args[0], args[0]
 		} else {
-			filepath = noName
-			filename = noName
+			filepath, filename = noName, noName
 		}
 	} else {
 		fileExists = true
@@ -77,10 +77,8 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 		}
 
 		dir := wsconf.Workspace + "/" + id
-		if _, err := os.Stat(dir); err != nil {
-			if err := os.MkdirAll(dir, 0755); err != nil {
-				return err
-			}
+		if err := makeDirOptP(dir, 0755); err != nil {
+			return err
 		}
 
 		if err := saveFileInCurrentBufferWithName(v, dir+"/"+filename); err != nil {
@@ -93,7 +91,7 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 			return err
 		}
 
-		// NOTE: patch file because maybe(e.g. Go-file) file is formatted when it is saved.
+		// NOTE: patch because maybe(e.g. Go-file) file is formatted when it is saved.
 		if err := reuploadFile(v, buf, id, filename); err != nil {
 			return err
 		}
@@ -101,6 +99,15 @@ func (g *Gilbert) GilbertUpload(v *nvim.Nvim, args []string) error {
 
 	util.Echom(v, url)
 
+	return nil
+}
+
+func makeDirOptP(dirpath string, perm os.FileMode) error {
+	if _, err := os.Stat(dirpath); err != nil {
+		if err := os.MkdirAll(dirpath, perm); err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
