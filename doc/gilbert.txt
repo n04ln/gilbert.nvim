@@ -11,7 +11,7 @@ INTRODUCTION                                      *gilbert.nvim-introduction*
 This plugin is easy.
 
 ==============================================================================
-Variable                                          *gilbert.nvim-variable*
+VARIABLE                                          *gilbert.nvim-variable*
 
 gilbert.nvim has all 2 variable
 
