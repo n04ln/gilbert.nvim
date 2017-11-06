@@ -175,7 +175,7 @@ func setValueOfMap(v *nvim.Nvim, s Scoop, variable, index string, value interfac
 		}
 	default:
 		valType := fmt.Sprintf("%T", value)
-		return ErrUnexpectedType(valType) // TODO: should return TYPE;;
+		return ErrUnexpectedType(valType)
 	}
 	return v.Command("let " + s.String() + variable + "['" + index + "']=" + val)
 }
