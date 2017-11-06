@@ -14,7 +14,7 @@ deps:
 
 install:
 	go build -ldflags "-w -s" -o bin/$(NAME)
-	mv bin/$(NAME) $(GOPATH)/bin/
+	cp bin/$(NAME) $(GOPATH)/bin/
 
 clean:
 	rm -rf bin/* vendor/*
