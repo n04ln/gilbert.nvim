@@ -47,9 +47,9 @@ const (
 	isLoadedByGiLoad         = "gilbert#is_loaded_by_giload"
 	// the format of func, "****()"
 	funcClearUndo = "gilbert#clear_undo()"
-	//Error
 )
 
+//Error
 var ErrUnexpectedType = func(t string) error {
 	return fmt.Errorf("unexpected type : %s", t)
 }
