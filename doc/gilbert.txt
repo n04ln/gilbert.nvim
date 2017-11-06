@@ -1,11 +1,22 @@
 *gilbert.nvim* easy upload and load gist plugin
-vim:tw=78:ts=8:ft=help:norl:noet:fen:fdl=0:
 
 Contents *gilbert.nvim*
 
-Introduction    |gilbert.nvim-introduction|
+Introduction                                |gilbert.nvim-introduction|
+Variable                                    |gilbert.nvim-variable|
 
 ==============================================================================
-INTRODUCTION                                         *gilbert.nvim-introduction*
+INTRODUCTION                                      *gilbert.nvim-introduction*
 
 This plugin is easy.
+
+==============================================================================
+Variable                                          *gilbert.nvim-variable*
+
+gilbert.nvim has all 2 variable
+
+g:gilbert#allow_open_by_browser
+    this variable is config to allow open browser when `:GiUpload` or `:GiPatch`
+
+g:gilbert#should_copy_url_to_clipboard
+    this variable is config to allow copy URL to clipboard
