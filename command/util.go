@@ -12,7 +12,7 @@ import (
 type Scoop int
 
 const (
-	GlobalScoop           = iota + 1
+	GlobalScoop Scoop = iota + 1
 	ScriptScoop
 	LocalScoop
 	BufferScoop
