@@ -9,30 +9,30 @@ import (
 	"github.com/neovim/go-client/nvim"
 )
 
-type Scoop int
+type Scope int
 
 const (
-	GlobalScoop Scoop = iota + 1
-	ScriptScoop
-	LocalScoop
-	BufferScoop
-	WindowScoop
-	BuiltinFuncScoop
+	GlobalScope      Scope = iota + 1
+	ScriptScope
+	LocalScope
+	BufferScope
+	WindowScope
+	BuiltinFuncScope
 )
 
-func (s Scoop) String() string {
+func (s Scope) String() string {
 	switch s {
-	case GlobalScoop:
+	case GlobalScope:
 		return "g:"
-	case ScriptScoop:
+	case ScriptScope:
 		return "s:"
-	case LocalScoop:
+	case LocalScope:
 		return "l:"
-	case BufferScoop:
+	case BufferScope:
 		return "b:"
-	case WindowScoop:
+	case WindowScope:
 		return "w:"
-	case BuiltinFuncScoop:
+	case BuiltinFuncScope:
 		return "v:"
 	}
 	return ""
@@ -97,7 +97,7 @@ func deleteBuffersOfGistID(v *nvim.Nvim, gistID string) error {
 	for key, value := range bufferMap {
 		if value == gistID {
 			b.Command("bw! " + key)
-			removeKeyOfMapByBatch(b, GlobalScoop, bufferAndGistIDInfo, key)
+			removeKeyOfMapByBatch(b, GlobalScope, bufferAndGistIDInfo, key)
 		}
 	}
 	if err := b.Execute(); err != nil {
@@ -136,7 +136,7 @@ func setGistIDFromBufferID(v *nvim.Nvim, buf nvim.Buffer, gistID string) error {
 	// bufferMap[int(buf)] = gistID
 	b := strconv.Itoa(int(buf))
 	// return v.SetVar("gilbert#buffer_and_gist_id_info", bufferMap)
-	return setValueOfMap(v, GlobalScoop, bufferAndGistIDInfo, b, gistID)
+	return setValueOfMap(v, GlobalScope, bufferAndGistIDInfo, b, gistID)
 }
 
 // Loadしたものかどうかを入れておく
@@ -145,7 +145,7 @@ func setGistIDToGiLoaded(v *nvim.Nvim, gistID string) error {
 	if err := v.Var(isLoadedByGiLoad, &flagMap); err != nil {
 		return err
 	}
-	return setValueOfMap(v, GlobalScoop, isLoadedByGiLoad, gistID, 1)
+	return setValueOfMap(v, GlobalScope, isLoadedByGiLoad, gistID, 1)
 }
 
 // mapにして返す
@@ -160,7 +160,7 @@ func getGistIDByGiLoaded(v *nvim.Nvim) (map[string]int, error) {
 // setValueOfMap
 // scoop => g, s, l, and so on
 // TODO: error handling of unexpected scoop
-func setValueOfMap(v *nvim.Nvim, s Scoop, variable, index string, value interface{}) error {
+func setValueOfMap(v *nvim.Nvim, s Scope, variable, index string, value interface{}) error {
 	var val string
 	switch value.(type) {
 	case int:
@@ -182,7 +182,7 @@ func setValueOfMap(v *nvim.Nvim, s Scoop, variable, index string, value interfac
 
 // removeKeyOfMap
 // scoop => g, s, l, and so on
-func removeKeyOfMapByBatch(b *nvim.Batch, s Scoop, variable, key string) {
+func removeKeyOfMapByBatch(b *nvim.Batch, s Scope, variable, key string) {
 	b.Command("call remove(" + s.String() + variable + ", '" + key + "')")
 }
 
