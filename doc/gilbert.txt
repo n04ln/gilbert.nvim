@@ -1,22 +1,58 @@
 *gilbert.nvim* easy upload and load gist plugin
 
-Contents *gilbert.nvim*
+                     gilbert.nvim      by NoahOrberg
 
-Introduction                                |gilbert.nvim-introduction|
-Variable                                    |gilbert.nvim-variable|
 
-==============================================================================
+                 this plugin can be used by only MacOS.
+
+
+Contents                                          *gilbert.nvim-content*
+
+
+Introduction                                      |gilbert.nvim-introduction|
+
+Commands                                          |gilbert.nvim-commands|
+  GiUpload                                        |gilbert.nvim-commands-upload|
+  GiLoad                                          |gilbert.nvim-commands-load|
+  GiPatch                                         |gilbert.nvim-commands-patch|
+
+Variables                                         |gilbert.nvim-variables|
+
+========================================================================================
 INTRODUCTION                                      *gilbert.nvim-introduction*
 
-This plugin is easy.
+    gilbert.nvim is neovim plugin that easy file load, upload, update(patch) to gist.
 
-==============================================================================
-VARIABLE                                          *gilbert.nvim-variable*
 
-gilbert.nvim has all 2 variable
+========================================================================================
+COMMANDS                                          *gilbert.nvim-commands*
 
-g:gilbert#allow_open_by_browser
-    this variable is config to allow open browser when `:GiUpload` or `:GiPatch`
+:GiUpload                                         *gilbert.nvim-commands-upload*
+    Upload to gist from current buffer.
+    you can set filename when upload NoName buffer.
+      e.g. :GiUpload main.go
 
-g:gilbert#should_copy_url_to_clipboard
-    this variable is config to allow copy URL to clipboard
+:GiLoad                                           *gilbert.nvim-commands-load*
+    Load from gist to new buffer.
+      e.g. :GiLoad <Gist-URL>
+           :GiLoad <Gist-ID>
+
+:GiPatch                                          *gilbert.nvim-commands-patch*
+    Update gist from current buffer and related buffers.
+    Please upload or load gist in advance.
+      e.g. :GiPatch
+
+========================================================================================
+VARIABLE                                          *gilbert.nvim-variables*
+
+gilbert.nvim has 2 variables.
+
+g:gilbert#allow_open_by_browser                   *gilbert.nvim-variables-allow-browser*
+    this variable is config
+                 to allow open browser when `:GiUpload` or `:GiPatch`
+
+g:gilbert#should_copy_url_to_clipboard            *gilbert.nvim-variables-allow-clip*
+    this variable is config
+                 to allow copy URL to clipboard
+
+
