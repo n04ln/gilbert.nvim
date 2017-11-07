@@ -2,7 +2,6 @@
 
                      gilbert.nvim      by NoahOrberg
 
-
                  this plugin can be used by only MacOS.
 
 
