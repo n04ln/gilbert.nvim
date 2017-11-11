@@ -8,12 +8,14 @@ import (
 func (g *Gilbert) GilbertList(v *nvim.Nvim, args []string) error {
 	gs, err := gist.ListGists()
 	if err != nil {
-		return error
+		return err
 	}
 
 	for _, g := range gs {
-		for k, v := range g.Files {
+		for k, _ := range g.Files {
 			v.Command("echom '" + k + "'")
 		}
 	}
+
+	return nil
 }
