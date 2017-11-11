@@ -134,8 +134,8 @@ func reuploadFile(v *nvim.Nvim, buf nvim.Buffer, id, filename string) error {
 		return err
 	}
 
-	files := map[string]gist.File{}
-	files[filename] = gist.File{
+	files := map[string]*gist.File{}
+	files[filename] = &gist.File{
 		Content: content,
 	}
 

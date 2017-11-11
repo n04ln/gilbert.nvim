@@ -24,7 +24,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 		return err
 	}
 
-	files := map[string]gist.File{}
+	files := map[string]*gist.File{}
 
 	giloadedIds, err := getGistIDByGiLoaded(v)
 	if err != nil {
@@ -59,7 +59,7 @@ func (g *Gilbert) GilbertPatch(v *nvim.Nvim, args []string) error {
 			}
 		}
 
-		files[filename] = gist.File{
+		files[filename] = &gist.File{
 			Content: content,
 		}
 	}
